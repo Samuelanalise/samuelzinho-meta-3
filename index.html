@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Samuelzinho Meta</title>
+<link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@500;600;700;900&family=Montserrat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --n1:#0d1730;--n2:#0a1326;--n3:#060c19;
+  --y:#ffcc00;--o:#ea5b0c;--w:#f6f6f6;
+  --grad:linear-gradient(90deg,var(--y) 0%,var(--o) 100%);
+  --good:#2ecc71;--fd:'Darker Grotesque',sans-serif;--fb:'Montserrat',sans-serif;--fm:'JetBrains Mono',monospace;
+}
+html,body{height:100%;width:100%;overflow:hidden;background:var(--n2);color:var(--w);font-family:var(--fb);}
+body{display:flex;flex-direction:column;}
+header{display:flex;align-items:center;gap:14px;padding:0 22px;height:56px;background:var(--n3);border-bottom:2px solid var(--o);flex-shrink:0;}
+.logo{font-family:var(--fd);font-size:22px;font-weight:900;color:var(--w);letter-spacing:1px;text-transform:uppercase;}
+.logo span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hbadge{font-family:var(--fd);font-size:9px;font-weight:700;padding:3px 9px;border:1px solid rgba(255,255,255,.12);border-radius:4px;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;}
+.hright{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.hconn{font-family:var(--fd);font-size:10px;font-weight:600;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px;}
+.hcdot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.15);}
+.hcdot.on{background:var(--good);box-shadow:0 0 0 2px rgba(46,204,113,.2);}
+.hbtn{background:transparent;border:1px solid rgba(255,255,255,.12);border-radius:5px;color:rgba(255,255,255,.5);font-size:10px;font-weight:700;font-family:var(--fd);padding:5px 11px;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:all .2s;}
+.hbtn:hover{border-color:var(--o);color:var(--o);}
+.sched-badge{font-family:var(--fd);font-size:9px;font-weight:700;padding:3px 8px;background:rgba(46,204,113,.15);border:1px solid rgba(46,204,113,.3);border-radius:4px;color:var(--good);text-transform:uppercase;letter-spacing:1px;display:none;}
+.main{display:flex;flex:1;overflow:hidden;height:calc(100vh - 56px);}
+.sidebar{width:270px;flex-shrink:0;background:var(--n3);border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;height:100%;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);}
+.sbs{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06);}
+.sbl{font-family:var(--fd);font-size:11px;font-weight:900;letter-spacing:2.5px;text-transform:uppercase;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:11px;}
+.f{margin-bottom:9px;}
+.f label{display:block;font-family:var(--fd);font-size:12px;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:4px;letter-spacing:.3px;text-transform:uppercase;}
+.f input,.f select,.f textarea{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:var(--w);font-family:var(--fm);font-size:12px;padding:9px 10px;outline:none;transition:border-color .2s;resize:none;}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--o);}
+.f input::placeholder,.f textarea::placeholder{color:rgba(255,255,255,.25);}
+.f select option{background:var(--n2);}
+.f .hint{font-size:10px;color:rgba(255,255,255,.3);margin-top:3px;line-height:1.4;}
+.f .hint a{color:var(--o);text-decoration:underline;}
+.btn{width:100%;padding:10px 12px;border:none;border-radius:6px;font-family:var(--fd);font-size:13px;font-weight:900;cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px;}
+.btn-o{background:var(--grad);color:#fff;}
+.btn-o:hover{opacity:.9;}
+.btn-o:disabled{opacity:.35;cursor:default;}
+.btn-g{background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.45);margin-top:5px;font-size:11px;}
+.btn-g:hover{border-color:var(--o);color:var(--o);}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.mc{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:11px 12px;}
+.mc .ml{font-family:var(--fd);font-size:11px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:1.5px;text-transform:uppercase;}
+.mc .mv{font-family:var(--fd);font-size:24px;font-weight:900;margin:5px 0 2px;color:var(--w);}
+.mc .md{font-family:var(--fd);font-size:11px;font-weight:700;}
+.md.up{color:var(--good);}.md.dn{color:var(--o);}.md.nu{color:rgba(255,255,255,.3);}
+.mql-wrap{margin-top:11px;}
+.mql-bg{height:4px;background:rgba(255,255,255,.1);border-radius:2px;}
+.mql-fill{height:4px;border-radius:2px;transition:width .4s;}
+.mql-labels{display:flex;justify-content:space-between;margin-top:4px;}
+.mql-labels span{font-family:var(--fd);font-size:10px;font-weight:600;color:rgba(255,255,255,.4);}
+.ci{padding:10px 11px;border-radius:7px;border:1px solid transparent;cursor:pointer;transition:all .15s;margin-bottom:3px;}
+.ci:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);}
+.ci.active{background:rgba(234,91,12,.12);border-color:rgba(234,91,12,.4);}
+.ci-name{font-family:var(--fd);font-size:15px;font-weight:700;color:var(--w);display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ci-meta{font-family:var(--fd);font-size:11px;font-weight:500;color:rgba(255,255,255,.4);margin-top:3px;}
+.sdot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.s-on{background:var(--good);}.s-w{background:var(--y);}.s-off{background:rgba(255,255,255,.2);}
+.ci-edit{background:transparent;border:none;color:rgba(255,255,255,.25);font-size:12px;cursor:pointer;padding:0;margin-left:auto;flex-shrink:0;opacity:0;transition:opacity .2s;}
+.ci:hover .ci-edit{opacity:1;}
+.ci-edit:hover{color:var(--o);}
+.cmp{padding:8px 10px;border-radius:6px;border:1px solid transparent;cursor:pointer;transition:all .12s;margin-bottom:2px;}
+.cmp:hover,.cmp.active{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);}
+.cmp.active{border-color:var(--o);}
+.cmp-label{font-family:var(--fd);font-size:13px;font-weight:700;color:var(--w);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cmp-meta{font-family:var(--fd);font-size:10px;font-weight:500;color:rgba(255,255,255,.4);margin-top:2px;display:flex;gap:6px;}
+.cpill{font-family:var(--fd);font-size:8px;font-weight:900;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;}
+.cp-g{background:rgba(46,204,113,.15);color:var(--good);}
+.cp-w{background:rgba(255,204,0,.15);color:var(--y);}
+.cp-b{background:rgba(234,91,12,.15);color:var(--o);}
+.qalist{display:flex;flex-direction:column;gap:4px;}
+.qabtn,.rpbtn{background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:6px;color:rgba(255,255,255,.55);font-size:12px;font-family:var(--fd);font-weight:600;padding:8px 10px;text-align:left;cursor:pointer;transition:all .18s;width:100%;margin-bottom:3px;}
+.qabtn:hover,.rpbtn:hover{border-color:var(--o);color:var(--w);background:rgba(234,91,12,.08);}
+.chat-area{flex:1;display:flex;flex-direction:column;height:100%;overflow:hidden;min-width:0;background:var(--n2);}
+.chat-hdr{padding:12px 24px;border-bottom:1px solid rgba(255,255,255,.07);background:var(--n1);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.chat-name{font-family:var(--fd);font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:1px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.chat-kpis{font-family:var(--fd);font-size:9px;color:rgba(255,255,255,.4);display:flex;gap:18px;margin-left:auto;}
+.chat-kpi .kv{font-family:var(--fd);font-size:20px;font-weight:900;color:var(--w);display:block;}
+.chat-kpi .kl{font-family:var(--fd);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;}
+#messages{flex:1;overflow-y:auto;overflow-x:hidden;padding:24px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;}
+#messages::-webkit-scrollbar{width:4px;}
+#messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
+.msg{display:flex;gap:10px;}
+.msg.user{flex-direction:row-reverse;}
+.mav{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:12px;font-weight:900;flex-shrink:0;margin-top:2px;text-transform:uppercase;}
+.msg.ai .mav{background:var(--grad);color:#fff;}
+.msg.user .mav{background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.1);}
+.bubble{max-width:82%;padding:14px 18px;border-radius:12px;font-size:14.5px;line-height:1.8;font-family:var(--fb);font-weight:400;}
+.msg.ai .bubble{background:var(--n1);border:1px solid rgba(255,255,255,.08);border-top-left-radius:3px;color:var(--w);}
+.msg.user .bubble{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-top-right-radius:3px;color:var(--w);}
+.bubble h3{font-family:var(--fd);font-size:13px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;color:var(--y);margin:18px 0 8px;border-bottom:1px solid rgba(255,204,0,.2);padding-bottom:5px;}
+.bubble h3:first-child{margin-top:0;}
+.bubble ul{padding-left:16px;display:flex;flex-direction:column;gap:5px;}
+.bubble li{font-size:14px;color:rgba(255,255,255,.85);}
+.bubble strong{color:var(--w);font-weight:700;}
+.bubble hr{border:none;border-top:1px solid rgba(255,255,255,.08);margin:13px 0;}
+.bubble a{color:var(--y);text-decoration:underline;}
+.tag{display:inline-block;font-family:var(--fd);font-size:9px;font-weight:900;padding:3px 9px;border-radius:4px;margin-right:4px;letter-spacing:1px;text-transform:uppercase;}
+.tag.good{background:rgba(46,204,113,.15);color:var(--good);border:1px solid rgba(46,204,113,.2);}
+.tag.warn{background:rgba(255,204,0,.15);color:var(--y);border:1px solid rgba(255,204,0,.2);}
+.tag.bad{background:rgba(234,91,12,.15);color:var(--o);border:1px solid rgba(234,91,12,.2);}
+.typing-bubble{display:flex;align-items:center;gap:6px;padding:14px 18px;}
+.typing-bubble span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);animation:bounce .9s infinite;}
+.typing-bubble span:nth-child(2){animation-delay:.15s;}
+.typing-bubble span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+.input-wrap{padding:14px 24px;border-top:1px solid rgba(255,255,255,.07);background:var(--n1);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;}
+textarea#input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:var(--w);font-family:var(--fb);font-size:15px;padding:10px 14px;resize:none;min-height:42px;max-height:100px;outline:none;transition:border-color .2s;line-height:1.5;}
+textarea#input:focus{border-color:var(--o);}
+textarea#input::placeholder{color:rgba(255,255,255,.25);}
+#send-btn{width:42px;height:42px;background:var(--grad);border:none;border-radius:8px;color:#fff;font-size:16px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+#send-btn:hover{opacity:.9;}
+#send-btn:disabled{opacity:.3;cursor:default;}
+.empty-state{margin:auto;text-align:center;padding:48px;opacity:.4;}
+.empty-state .big{font-family:var(--fd);font-size:64px;font-weight:900;text-transform:uppercase;letter-spacing:2px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.empty-state p{font-family:var(--fb);font-size:14px;color:rgba(255,255,255,.5);margin-top:10px;line-height:1.6;}
+.skel{height:10px;border-radius:4px;background:linear-gradient(90deg,rgba(255,255,255,.05) 25%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.05) 75%);background-size:200%;animation:shimmer 1.4s infinite;margin-bottom:6px;}
+@keyframes shimmer{0%{background-position:200%}100%{background-position:-200%}}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:2000;backdrop-filter:blur(6px);}
+.modal-overlay.show{display:flex;}
+.modal-box{background:var(--n1);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:28px;width:500px;display:flex;flex-direction:column;gap:14px;box-shadow:0 32px 80px rgba(0,0,0,.5);max-height:92vh;overflow-y:auto;}
+.modal-title{font-family:var(--fd);font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:1px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.modal-desc{font-family:var(--fb);font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;}
+.mf{display:flex;flex-direction:column;gap:5px;}
+.mf label{font-family:var(--fd);font-size:9px;font-weight:900;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1.5px;}
+.mf input,.mf select,.mf textarea{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:var(--w);font-family:var(--fm);font-size:12px;padding:8px 10px;outline:none;width:100%;resize:none;}
+.mf input:focus,.mf select:focus,.mf textarea:focus{border-color:var(--o);}
+.mf input::placeholder,.mf textarea::placeholder{color:rgba(255,255,255,.25);}
+.mf textarea{min-height:60px;}
+.mf select option{background:var(--n2);}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.modal-sep{border:none;border-top:1px solid rgba(255,255,255,.08);margin:2px 0;}
+.modal-sub{font-family:var(--fd);font-size:10px;font-weight:900;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:2px;margin:4px 0 8px;}
+.modal-actions{display:flex;gap:8px;margin-top:4px;}
+.modal-actions button{flex:1;padding:10px;border:none;border-radius:6px;font-family:var(--fd);font-size:13px;font-weight:900;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;}
+.m-confirm{background:var(--grad);color:#fff;}
+.m-cancel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5);}
+.dmodal-box{width:360px;}
+/* MQL PROFILES */
+.mql-profile{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px;margin-bottom:8px;}
+.mql-profile-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.mql-profile-title{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--w);text-transform:uppercase;letter-spacing:.5px;}
+.mql-del-profile{background:transparent;border:none;color:rgba(255,255,255,.3);font-size:14px;cursor:pointer;}
+.mql-del-profile:hover{color:var(--o);}
+.mql-fields-list{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.mql-field-row{display:grid;grid-template-columns:1fr 100px 1fr auto;gap:5px;align-items:center;}
+.mql-field-row input,.mql-field-row select{padding:6px 8px;font-size:11px;font-family:var(--fm);}
+.mql-del-btn{background:rgba(234,91,12,.15);border:1px solid rgba(234,91,12,.3);border-radius:5px;color:var(--o);font-size:11px;padding:5px 7px;cursor:pointer;}
+.mql-del-btn:hover{background:rgba(234,91,12,.25);}
+.add-field-btn,.add-profile-btn{background:transparent;border:1px dashed rgba(255,255,255,.2);border-radius:6px;color:rgba(255,255,255,.4);font-size:11px;font-family:var(--fd);font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:7px;cursor:pointer;width:100%;transition:all .2s;margin-top:5px;}
+.add-field-btn:hover,.add-profile-btn:hover{border-color:var(--o);color:var(--o);}
+.add-profile-btn{margin-top:0;}
+/* CHART */
+.chart-wrap{margin-top:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:12px;}
+.chart-title{font-family:var(--fd);font-size:9px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;}
+.chart-canvas{width:100%!important;max-height:120px;}
+
+/* ALERT BADGE */
+.alert-badge{background:rgba(234,91,12,.15);border:1px solid rgba(234,91,12,.3);border-radius:6px;padding:8px 10px;margin-bottom:4px;font-family:var(--fd);font-size:11px;font-weight:600;color:var(--o);}
+.alert-good{background:rgba(46,204,113,.1);border-color:rgba(46,204,113,.3);color:var(--good);}
+
+/* PERIOD SHORTCUTS */
+.period-shortcuts{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap;}
+.pshort{background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:4px;color:rgba(255,255,255,.45);font-family:var(--fd);font-size:9px;font-weight:700;padding:4px 7px;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:all .15s;}
+.pshort:hover,.pshort.active{border-color:var(--o);color:var(--o);background:rgba(234,91,12,.08);}
+
+/* COMPARE BADGE */
+.compare-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.06);}
+.compare-lbl{font-family:var(--fd);font-size:9px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px;}
+.compare-val{font-family:var(--fd);font-size:10px;font-weight:700;}
+.cv-up{color:var(--good);}.cv-dn{color:var(--o);}.cv-neu{color:rgba(255,255,255,.4);}
+
+/* LAST SYNC */
+.sync-info{font-family:var(--fd);font-size:9px;color:rgba(255,255,255,.25);margin-top:6px;text-align:right;}
+
+/* MQL LEADS TABLE */
+.leads-panel{margin-top:10px;}
+.lead-row{padding:7px 8px;border-radius:5px;border:1px solid rgba(255,255,255,.06);margin-bottom:3px;cursor:pointer;transition:all .15s;}
+.lead-row:hover{background:rgba(255,255,255,.05);}
+.lead-row.is-mql{border-color:rgba(46,204,113,.25);background:rgba(46,204,113,.04);}
+.lead-name{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--w);display:flex;align-items:center;gap:5px;}
+.lead-meta{font-family:var(--fd);font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;}
+.mql-dot{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.mql-yes{background:var(--good);}.mql-no{background:rgba(255,255,255,.2);}
+
+/* REPORT HISTORY */
+.rh-item{padding:7px 8px;border-radius:5px;border:1px solid rgba(255,255,255,.06);margin-bottom:3px;}
+.rh-title{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--w);}
+.rh-meta{font-family:var(--fd);font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;display:flex;justify-content:space-between;}
+.rh-link{color:var(--o);text-decoration:underline;cursor:pointer;}
+
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--n1);border:1px solid rgba(255,255,255,.12);padding:9px 18px;border-radius:8px;font-family:var(--fd);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w);opacity:0;transition:all .25s;pointer-events:none;z-index:1000;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Samuelzinho <span>Meta</span></div>
+  <div class="hbadge">Tráfego Tributário</div>
+  <div class="hright">
+    <div class="sched-badge" id="sched-badge">⏰ Agendador ativo</div>
+    <button class="hbtn" id="add-client-btn" onclick="openClientModal()" style="display:none">+ Cliente</button>
+    <button class="hbtn" id="reload-btn" onclick="reloadAll()" style="display:none">↻ Atualizar</button>
+    <div class="hconn"><div class="hcdot" id="hcdot"></div><span id="hclabel">Desconectado</span></div>
+  </div>
+</header>
+<div class="main">
+  <div class="sidebar">
+    <!-- CONFIG -->
+    <div class="sbs">
+      <div class="sbl">Configuração</div>
+      <div class="f"><label>API Anthropic</label><input type="password" id="anthropic-key" placeholder="sk-ant-..."/></div>
+      <div class="f"><label>Google Sheets API Key</label><input type="password" id="sheets-key" placeholder="AIzaSy..."/></div>
+      <div class="f"><label>ClickUp API Key</label><input type="password" id="clickup-key" placeholder="pk_..."/></div>
+      <div class="f">
+        <label>ID Planilha Unificada (Stract)</label>
+        <input type="text" id="unified-sheet-id" placeholder="12d6Qd9..."/>
+        <div class="hint">Planilha central com todas as campanhas</div>
+      </div>
+      <div class="f">
+        <label>Apps Script URL (sincronização)</label>
+        <input type="text" id="apps-script-url" placeholder="https://script.google.com/macros/s/..."/>
+        <div class="hint">Cole aqui a URL do Web App para sincronizar entre dispositivos</div>
+      </div>
+      <button class="btn btn-o" onclick="saveConfig()">Salvar configuração</button>
+      <button class="btn btn-g" onclick="exportConfig()">↓ Exportar configuração</button>
+      <label class="btn btn-g" style="text-align:center;cursor:pointer;margin-top:4px">
+        ↑ Importar configuração
+        <input type="file" accept=".json" onchange="importConfig(event)" style="display:none"/>
+      </label>
+    </div>
+    <!-- CLIENTS -->
+    <div class="sbs" id="clients-section" style="display:none">
+      <div class="sbl">Clientes</div>
+      <div id="clients-list"></div>
+      <button class="btn btn-g" onclick="openClientModal()" style="margin-top:8px">+ Adicionar cliente</button>
+    </div>
+    <!-- METRICS -->
+    <div class="sbs" id="metrics-section" style="display:none">
+      <div class="sbl" id="metrics-lbl">Métricas</div>
+      <!-- Alerts -->
+      <div id="alerts-wrap" style="margin-bottom:8px"></div>
+      <!-- Metrics grid -->
+      <div class="mgrid" id="metric-grid"></div>
+      <!-- Comparativo -->
+      <div id="compare-wrap" style="display:none">
+        <div class="compare-row">
+          <span class="compare-lbl">vs período anterior</span>
+          <span id="compare-leads" class="compare-val cv-neu">—</span>
+        </div>
+      </div>
+      <!-- MQL bar -->
+      <div class="mql-wrap" id="mql-wrap" style="display:none">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+          <span style="font-family:var(--fd);font-size:9px;font-weight:700;color:rgba(255,255,255,.4)">MQL%</span>
+          <span style="font-family:var(--fd);font-size:9px;font-weight:700" id="mql-pct-lbl"></span>
+        </div>
+        <div class="mql-bg"><div class="mql-fill" id="mql-bar"></div></div>
+        <div class="mql-labels"><span id="mql-real-lbl"></span><span id="mql-meta-lbl"></span></div>
+      </div>
+      <!-- Chart -->
+      <div class="chart-wrap" id="chart-wrap" style="display:none">
+        <div class="chart-title">Leads por dia</div>
+        <canvas id="leads-chart" class="chart-canvas"></canvas>
+      </div>
+      <!-- Last sync -->
+      <div class="sync-info" id="sync-info"></div>
+    </div>
+    <!-- PERIOD -->
+    <div class="sbs" id="period-section" style="display:none">
+      <div class="sbl">Período</div>
+      <div class="period-shortcuts" id="period-shortcuts">
+        <button class="pshort" onclick="setQuickPeriod(7)">7d</button>
+        <button class="pshort" onclick="setQuickPeriod(14)">14d</button>
+        <button class="pshort active" onclick="setQuickPeriod(30)">30d</button>
+        <button class="pshort" onclick="setQuickPeriod(60)">60d</button>
+        <button class="pshort" onclick="setQuickPeriod(90)">90d</button>
+        <button class="pshort" onclick="setQuickPeriod(9999)">Tudo</button>
+      </div>
+    </div>
+    <!-- CAMPAIGNS -->
+    <div class="sbs" id="camps-section" style="display:none">
+      <div class="sbl">Campanhas</div>
+      <div id="camps-list"></div>
+    </div>
+    <!-- REPORTS -->
+    <div class="sbs" id="reports-section" style="display:none">
+      <div class="sbl">Relatórios no chat</div>
+      <button class="rpbtn" onclick="openReportModal('diario','chat')">Diário</button>
+      <button class="rpbtn" onclick="openReportModal('semanal','chat')">Semanal</button>
+      <button class="rpbtn" onclick="openReportModal('mensal','chat')">Mensal</button>
+    </div>
+    <div class="sbs" id="clickup-section" style="display:none">
+      <div class="sbl">Enviar ao ClickUp</div>
+      <button class="rpbtn" style="border-color:rgba(234,91,12,.5);color:var(--o);font-weight:700" onclick="openReportModal('diario','clickup')">Diário → ClickUp</button>
+      <button class="rpbtn" style="border-color:rgba(234,91,12,.5);color:var(--o);font-weight:700" onclick="openReportModal('semanal','clickup')">Semanal → ClickUp</button>
+      <button class="rpbtn" style="border-color:rgba(234,91,12,.5);color:var(--o);font-weight:700" onclick="openReportModal('mensal','clickup')">Mensal → ClickUp</button>
+    </div>
+    <!-- LEADS VIEW -->
+    <div class="sbs" id="leads-section" style="display:none">
+      <div class="sbl">Leads do CRM</div>
+      <div style="display:flex;gap:4px;margin-bottom:8px">
+        <button class="pshort active" id="leads-filter-all" onclick="filterLeads('all')">Todos</button>
+        <button class="pshort" id="leads-filter-mql" onclick="filterLeads('mql')">MQL</button>
+        <button class="pshort" id="leads-filter-no" onclick="filterLeads('no')">Não MQL</button>
+      </div>
+      <div id="leads-list" style="max-height:200px;overflow-y:auto"></div>
+      <button class="btn btn-g" onclick="exportMQL()" style="margin-top:6px;font-size:10px">↓ Exportar MQLs CSV</button>
+    </div>
+    <!-- REPORT HISTORY -->
+    <div class="sbs" id="rh-section" style="display:none">
+      <div class="sbl">Histórico de relatórios</div>
+      <div id="rh-list" style="max-height:180px;overflow-y:auto"></div>
+    </div>
+    <!-- QUICK ANALYSIS -->
+    <div class="sbs" id="qa-section" style="display:none">
+      <div class="sbl">Análises rápidas</div>
+      <div class="qalist">
+        <button class="qabtn" onclick="qa('geral')">Análise geral do cliente</button>
+        <button class="qabtn" onclick="qa('ctr')">Diagnóstico de CTR</button>
+        <button class="qabtn" onclick="qa('cpl')">CPL real vs meta</button>
+        <button class="qabtn" onclick="qa('mql')">Qualidade dos leads / MQL</button>
+        <button class="qabtn" onclick="qa('crm')">Análise completa do CRM</button>
+        <button class="qabtn" onclick="qa('frequencia')">Saturação de público</button>
+        <button class="qabtn" onclick="qa('escala')">O que escalar agora</button>
+      </div>
+    </div>
+  </div>
+  <!-- CHAT -->
+  <div class="chat-area">
+    <div class="chat-hdr" id="chat-hdr" style="display:none">
+      <div class="sdot s-on"></div>
+      <div class="chat-name" id="chat-name">—</div>
+      <div class="chat-kpis" id="chat-kpis"></div>
+      <button onclick="reAnalyze()" style="background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:5px;color:rgba(255,255,255,.5);font-family:var(--fd);font-size:10px;font-weight:700;padding:5px 10px;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;transition:all .2s;margin-left:8px;flex-shrink:0;" onmouseover="this.style.borderColor='var(--o)';this.style.color='var(--o)'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.5)'">↺ Nova análise</button>
+    </div>
+    <div id="messages">
+      <div class="empty-state" id="empty-state">
+        <div class="big">Samuelzinho</div>
+        <p>Configure as chaves e adicione seus clientes<br>para começar a análise.</p>
+      </div>
+    </div>
+    <div class="input-wrap">
+      <textarea id="input" placeholder="Pergunte sobre campanhas, leads ou MQL..." rows="1"></textarea>
+      <button id="send-btn" onclick="sendMessage()">▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CLIENTE -->
+<div class="modal-overlay" id="client-modal">
+  <div class="modal-box">
+    <div class="modal-title" id="cm-title">Novo cliente</div>
+    <div class="modal-desc">Configure os dados básicos e os perfis de MQL por campanha.</div>
+    <hr class="modal-sep"/>
+    <div class="modal-sub">Dados básicos</div>
+    <div class="mf"><label>Nome do cliente</label><input type="text" id="cm-name" placeholder="Ex: Essência Gestão"/></div>
+    <div class="mf">
+      <label>ID Planilha Looker (CRM)</label>
+      <input type="text" id="cm-sheet" placeholder="1BxiMV..."/>
+      <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:2px">Planilha do cliente — usada para ler a aba CRM</div>
+    </div>
+    <div class="mf"><label>ClickUp List ID (deste cliente)</label><input type="text" id="cm-culist" placeholder="901234567"/></div>
+    <div class="mf"><label>Nome exato na planilha unificada (Conta / Cliente)</label><input type="text" id="cm-acctname" placeholder="Ex: Essência Gestão"/></div>
+    <hr class="modal-sep"/>
+    <div class="modal-sub">Perfis de MQL por campanha</div>
+    <div class="modal-desc" style="margin-bottom:10px">Adicione um perfil para cada campanha ativa. O Samuelzinho cruzará o campo "Campanha" do CRM com o perfil correto.</div>
+    <div id="mql-profiles-list"></div>
+    <button class="add-profile-btn" onclick="addMqlProfile()">+ Adicionar perfil de campanha</button>
+    <div class="modal-actions" style="margin-top:14px">
+      <button class="m-cancel" onclick="closeClientModal()">Cancelar</button>
+      <button class="m-confirm" onclick="saveClient()">Salvar cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL RELATÓRIO -->
+<div class="modal-overlay" id="report-modal">
+  <div class="modal-box dmodal-box">
+    <div class="modal-title" id="rm-title">Relatório</div>
+    <div class="modal-desc" id="rm-desc"></div>
+    <div class="mf"><label>Data inicial</label><input type="date" id="rm-start"/></div>
+    <div class="mf" id="rm-end-wrap"><label>Data final</label><input type="date" id="rm-end"/></div>
+    <div class="modal-actions">
+      <button class="m-cancel" onclick="closeReportModal()">Cancelar</button>
+      <button class="m-confirm" id="rm-confirm">Gerar relatório</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ─────────────────────────────────────────────────────────────
+let anthropicKey='',sheetsKey='',clickupKey='',unifiedSheetId='',appsScriptUrl='';
+let clients=[],activeClientId=null,periodDays=30,editingClientId=null;
+const sheetData={},chatHistories={};
+let schedInterval=null;
+const schedState={lastDaily:null,lastWeekly:null,lastMonthly:null};
+let profileCount=0,fieldCount=0;
+
+// ── LOCALSTORAGE ──────────────────────────────────────────────────────
+function save(){
+  try{
+    localStorage.setItem('sm_cfg',JSON.stringify({anthropicKey,sheetsKey,clickupKey,unifiedSheetId,appsScriptUrl,periodDays}));
+    localStorage.setItem('sm_clients',JSON.stringify(clients));
+    localStorage.setItem('sm_chats',JSON.stringify(Object.fromEntries(Object.entries(chatHistories).map(([k,v])=>[k,v.slice(-30)]))));
+    localStorage.setItem('sm_sched',JSON.stringify(schedState));
+  }catch(e){}
+}
+function load(){
+  try{
+    const cfg=JSON.parse(localStorage.getItem('sm_cfg')||'{}');
+    if(cfg.anthropicKey){anthropicKey=cfg.anthropicKey;document.getElementById('anthropic-key').value=cfg.anthropicKey;}
+    if(cfg.sheetsKey){sheetsKey=cfg.sheetsKey;document.getElementById('sheets-key').value=cfg.sheetsKey;}
+    if(cfg.clickupKey){clickupKey=cfg.clickupKey;document.getElementById('clickup-key').value=cfg.clickupKey;}
+    if(cfg.unifiedSheetId){unifiedSheetId=cfg.unifiedSheetId;document.getElementById('unified-sheet-id').value=cfg.unifiedSheetId;}
+    if(cfg.appsScriptUrl){appsScriptUrl=cfg.appsScriptUrl;document.getElementById('apps-script-url').value=cfg.appsScriptUrl;}
+    if(cfg.periodDays){periodDays=cfg.periodDays;document.getElementById('period-select').value=String(periodDays);}
+    clients=JSON.parse(localStorage.getItem('sm_clients')||'[]');
+    Object.assign(chatHistories,JSON.parse(localStorage.getItem('sm_chats')||'{}'));
+    Object.assign(schedState,JSON.parse(localStorage.getItem('sm_sched')||'{}'));
+    return !!(cfg.anthropicKey&&cfg.sheetsKey&&clients.length);
+  }catch(e){return false;}
+}
+
+// ── CONFIG ────────────────────────────────────────────────────────────
+// ── APPS SCRIPT SYNC ─────────────────────────────────────────────────
+async function syncLoad(){
+  if(!appsScriptUrl)return false;
+  try{
+    const url=appsScriptUrl+'?action=load';
+    const res=await fetch(url,{redirect:'follow'});
+    if(!res.ok){console.warn('syncLoad HTTP error:',res.status);return false;}
+    const text=await res.text();
+    console.log('syncLoad response:',text.slice(0,200));
+    const data=JSON.parse(text);
+    if(!data.ok)return false;
+    // Restore config (but keep current API keys if already set)
+    if(data.config){
+      const cfg=data.config;
+      if(cfg.sheetsKey&&!sheetsKey){sheetsKey=cfg.sheetsKey;document.getElementById('sheets-key').value=cfg.sheetsKey;}
+      if(cfg.clickupKey&&!clickupKey){clickupKey=cfg.clickupKey;document.getElementById('clickup-key').value=cfg.clickupKey;}
+      if(cfg.unifiedSheetId&&!unifiedSheetId){unifiedSheetId=cfg.unifiedSheetId;document.getElementById('unified-sheet-id').value=cfg.unifiedSheetId;}
+      if(cfg.periodDays){periodDays=cfg.periodDays;document.getElementById('period-select').value=String(periodDays);}
+    }
+    // Restore clients
+    if(data.clients&&data.clients.length){clients=data.clients;}
+    // Restore histories
+    if(data.histories){Object.assign(chatHistories,data.histories);}
+    return true;
+  }catch(e){console.warn('Apps Script sync error:',e.message);return false;}
+}
+
+async function syncPost(body){
+  if(!appsScriptUrl)return;
+  try{
+    // Use text/plain to avoid CORS preflight
+    await fetch(appsScriptUrl,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify(body),
+      redirect:'follow'
+    });
+  }catch(e){console.warn('syncPost error:',e.message);}
+}
+
+async function syncSaveConfig(){
+  if(!appsScriptUrl)return;
+  await syncPost({action:'saveConfig',data:{sheetsKey,clickupKey,unifiedSheetId,periodDays}});
+  await syncPost({action:'saveClients',data:clients});
+}
+
+async function syncSaveHistory(clientId,messages){
+  if(!appsScriptUrl)return;
+  await syncPost({action:'saveHistory',clientId,messages:messages.slice(-50)});
+}
+
+function exportConfig(){
+  const data={
+    config:{anthropicKey,sheetsKey,clickupKey,unifiedSheetId,periodDays},
+    clients,
+    exportedAt:new Date().toISOString(),
+    version:'1.0'
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`samuelzinho-config-${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Configuração exportada.');
+}
+
+function importConfig(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.config||!data.clients){showToast('Arquivo inválido.');return;}
+      // Apply config
+      const cfg=data.config;
+      if(cfg.anthropicKey){anthropicKey=cfg.anthropicKey;document.getElementById('anthropic-key').value=cfg.anthropicKey;}
+      if(cfg.sheetsKey){sheetsKey=cfg.sheetsKey;document.getElementById('sheets-key').value=cfg.sheetsKey;}
+      if(cfg.clickupKey){clickupKey=cfg.clickupKey;document.getElementById('clickup-key').value=cfg.clickupKey;}
+      if(cfg.unifiedSheetId){unifiedSheetId=cfg.unifiedSheetId;document.getElementById('unified-sheet-id').value=cfg.unifiedSheetId;}
+    if(cfg.appsScriptUrl){appsScriptUrl=cfg.appsScriptUrl;document.getElementById('apps-script-url').value=cfg.appsScriptUrl;}
+      if(cfg.periodDays){periodDays=cfg.periodDays;document.getElementById('period-select').value=String(periodDays);}
+      clients=data.clients||[];
+      save();
+      saveConfig();
+      showToast(`${clients.length} cliente(s) importado(s) com sucesso.`);
+    }catch(err){showToast('Erro ao importar: arquivo inválido.');}
+  };
+  reader.readAsText(file);
+  event.target.value='';
+}
+
+function saveConfig(){
+  anthropicKey=document.getElementById('anthropic-key').value.trim();
+  sheetsKey=document.getElementById('sheets-key').value.trim();
+  clickupKey=document.getElementById('clickup-key').value.trim();
+  unifiedSheetId=document.getElementById('unified-sheet-id').value.trim();
+  appsScriptUrl=document.getElementById('apps-script-url').value.trim();
+  if(!anthropicKey||!sheetsKey){showToast('Preencha as chaves Anthropic e Google Sheets.');return;}
+  save();
+  document.getElementById('clients-section').style.display='block';
+  document.getElementById('add-client-btn').style.display='block';
+  document.getElementById('hcdot').className='hcdot on';
+  document.getElementById('hclabel').textContent='Configurado';
+  showToast('Configuração salva.');
+  syncSaveConfig();
+  if(clients.length)renderClients();
+  startScheduler();
+}
+
+// ── GOOGLE SHEETS ─────────────────────────────────────────────────────
+async function sheetsGet(shId,range){
+  const url=`https://sheets.googleapis.com/v4/spreadsheets/${shId}/values/${encodeURIComponent(range)}?key=${sheetsKey}`;
+  const r=await fetch(url);const d=await r.json();
+  if(d.error)throw new Error(d.error.message);
+  return d.values||[];
+}
+
+function parseRows(rows){
+  if(!rows||!rows.length)return{headers:[],data:[]};
+  const isDate=v=>/^\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}/.test((v||'').trim());
+  const isNum=v=>/^R?\$?\s*[\d.,]+$/.test((v||'').trim().replace(/\s/g,''));
+  // Score each row: higher score = more likely to be a header
+  // A header row has many unique text values, not dates/numbers
+  let bestScore=-1,hi=0;
+  for(let i=0;i<Math.min(rows.length,6);i++){
+    const cells=rows[i].map(c=>(c||'').trim());
+    const nonEmpty=cells.filter(Boolean);
+    if(nonEmpty.length<2)continue;
+    const textCells=nonEmpty.filter(c=>!isDate(c)&&!isNum(c));
+    const uniqueVals=new Set(textCells).size;
+    // Key signal: contains known header words
+    const hasKeyword=nonEmpty.some(c=>/data|conta|cliente|campanha|investimento|impressões|leads|cargo|nome|email/i.test(c));
+    const score=textCells.length*2 + uniqueVals + (hasKeyword?100:0);
+    if(score>bestScore){bestScore=score;hi=i;}
+  }
+  const headers=rows[hi].map(h=>(h||'').trim());
+  console.log('parseRows: header at row',hi,'headers:',headers.slice(0,6));
+  const data=rows.slice(hi+1).filter(r=>r.some(c=>(c||'').trim())).map(r=>{
+    const obj={};headers.forEach((h,i)=>{if(h)obj[h]=(r[i]||'').trim();});return obj;
+  });
+  return{headers,data};
+}
+
+// ── NUMBER & DATE PARSING ─────────────────────────────────────────────
+function pn(v){
+  if(!v&&v!==0)return 0;
+  let s=String(v).replace(/R\$|%|\s/g,'').trim();
+  if(s.includes(',')&&s.includes('.')){
+    s=s.lastIndexOf(',')>s.lastIndexOf('.')?s.replace(/\./g,'').replace(',','.'):s.replace(/,/g,'');
+  }else if(s.includes(',')){s=s.replace(',','.');}
+  const n=parseFloat(s);return isNaN(n)?0:n;
+}
+function sumF(rows,f){return rows.reduce((a,r)=>a+pn(r[f]),0);}
+function avgF(rows,f){const v=rows.map(r=>pn(r[f])).filter(x=>x>0);return v.length?v.reduce((a,b)=>a+b,0)/v.length:0;}
+function getVal(rows,cols){for(const c of cols){const v=sumF(rows,c);if(v>0)return v;}return 0;}
+function getAvg(rows,cols){for(const c of cols){const v=avgF(rows,c);if(v>0)return v;}return 0;}
+function calcSpend(r){return getVal(r,['Investimento','Investimento (R$)','Cost','Spend']);}
+function calcImpr(r){return getVal(r,['Impressões','Impressions']);}
+function calcClks(r){return getVal(r,['Cliques','Clicks']);}
+function calcLeads(r){return getVal(r,['Leads Form Nativo','Leads','Lead','Resultado (leads)']);}
+function calcCTR(r){const d=getAvg(r,['CTR (%)','CTR']);if(d>0)return d;const cl=calcClks(r),im=calcImpr(r);return im>0?cl/im*100:0;}
+function calcCPM(r){const d=getAvg(r,['CPM (R$)','CPM']);if(d>0)return d;const sp=calcSpend(r),im=calcImpr(r);return im>0?sp/im*1000:0;}
+function calcFreq(r){return getAvg(r,['Frequência','Frequency']);}
+
+function parseDate(s){
+  if(!s)return null;s=String(s).trim();
+  let m=/^(\d{4})-(\d{2})-(\d{2})/.exec(s);if(m)return new Date(+m[1],+m[2]-1,+m[3]);
+  m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(s);if(m)return new Date(+m[3],+m[2]-1,+m[1]);
+  m=/^(\d{1,2})\/(\d{1,2})\/(\d{2})$/.exec(s);if(m)return new Date(2000+(+m[3]),+m[2]-1,+m[1]);
+  m=/^(\d{1,2})-(\d{1,2})-(\d{4})$/.exec(s);if(m)return new Date(+m[3],+m[2]-1,+m[1]);
+  const d=new Date(s);return isNaN(d)?null:d;
+}
+function cutoff(){const d=new Date();d.setDate(d.getDate()-periodDays);d.setHours(0,0,0,0);return d;}
+function inPeriod(ds){if(periodDays>=9999)return true;const d=parseDate(ds);return!d||isNaN(d)||d>=cutoff();}
+function inRange(ds,sd,ed){const d=parseDate(ds);if(!d||isNaN(d))return false;return d>=sd&&d<=ed;}
+function ymd(d){return d.toISOString().split('T')[0];}
+function yesterday(){const d=new Date();d.setDate(d.getDate()-1);return ymd(d);}
+function lastWeek(){const n=new Date(),day=n.getDay(),de=day===0?7:day;const end=new Date(n);end.setDate(n.getDate()-de);const start=new Date(end);start.setDate(end.getDate()-6);return{start:ymd(start),end:ymd(end)};}
+function lastMonth(){const n=new Date();return{start:ymd(new Date(n.getFullYear(),n.getMonth()-1,1)),end:ymd(new Date(n.getFullYear(),n.getMonth(),0))};}
+function fmtBR(d){return d.split('-').reverse().join('/');}
+function periodLabel(){return{7:'7 dias',14:'14 dias',30:'30 dias',60:'60 dias',90:'90 dias',365:'12 meses',9999:'Todo o histórico'}[periodDays]||`${periodDays} dias`;}
+
+// ── MQL PROFILES ──────────────────────────────────────────────────────
+function addMqlProfile(prof=null){
+  const list=document.getElementById('mql-profiles-list');
+  const pid=profileCount++;
+  const div=document.createElement('div');div.className='mql-profile';div.id=`prof-${pid}`;
+  div.innerHTML=`
+    <div class="mql-profile-hdr">
+      <div style="display:flex;flex-direction:column;gap:5px;flex:1;margin-right:10px">
+        <input type="text" placeholder="Nome da campanha (ex: Equiparação Hospitalar)" value="${escH(prof?.campanha||'')}" class="prof-camp" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:5px;color:var(--w);font-family:var(--fm);font-size:11px;padding:6px 9px;outline:none;"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <input type="number" placeholder="CPL meta (R$)" value="${prof?.cpl||''}" class="prof-cpl" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:5px;color:var(--w);font-family:var(--fm);font-size:11px;padding:6px 8px;outline:none;"/>
+          <input type="number" placeholder="MQL% meta" value="${prof?.mqlPct||''}" class="prof-mql" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:5px;color:var(--w);font-family:var(--fm);font-size:11px;padding:6px 8px;outline:none;"/>
+        </div>
+      </div>
+      <button class="mql-del-profile" onclick="document.getElementById('prof-${pid}').remove()">✕</button>
+    </div>
+    <div style="font-family:var(--fd);font-size:9px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Critérios de qualificação</div>
+    <div class="mql-fields-list" id="fields-${pid}"></div>
+    <button class="add-field-btn" onclick="addMqlField('${pid}')">+ Campo do formulário</button>`;
+  list.appendChild(div);
+  (prof?.fields||[]).forEach(f=>addMqlField(pid,f));
+}
+
+function addMqlField(pid,f=null){
+  const list=document.getElementById(`fields-${pid}`);
+  const fid=fieldCount++;
+  const div=document.createElement('div');div.className='mql-field-row';div.id=`frow-${fid}`;
+  div.innerHTML=`
+    <input type="text" placeholder="Campo (ex: Cargo)" value="${escH(f?.name||'')}" class="mf-name" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:5px;color:var(--w);font-family:var(--fm);font-size:11px;padding:6px 8px;outline:none;"/>
+    <select class="mf-crit" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:5px;color:var(--w);font-family:var(--fm);font-size:10px;padding:6px 5px;outline:none;">
+      <option value="contains" ${f?.crit==='contains'?'selected':''}>contém</option>
+      <option value="notcontains" ${f?.crit==='notcontains'?'selected':''}>não contém</option>
+      <option value="gt" ${f?.crit==='gt'?'selected':''}>maior que</option>
+      <option value="any" ${f?.crit==='any'?'selected':''}>qualquer valor</option>
+    </select>
+    <input type="text" placeholder="Valor" value="${escH(f?.val||'')}" class="mf-val" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:5px;color:var(--w);font-family:var(--fm);font-size:11px;padding:6px 8px;outline:none;"/>
+    <button class="mql-del-btn" onclick="document.getElementById('frow-${fid}').remove()">✕</button>`;
+  list.appendChild(div);
+}
+
+function getMqlProfiles(){
+  return [...document.querySelectorAll('#mql-profiles-list .mql-profile')].map(p=>({
+    campanha:p.querySelector('.prof-camp').value.trim(),
+    cpl:parseFloat(p.querySelector('.prof-cpl').value)||0,
+    mqlPct:parseFloat(p.querySelector('.prof-mql').value)||40,
+    fields:[...p.querySelectorAll('.mql-field-row')].map(r=>({
+      name:r.querySelector('.mf-name').value.trim(),
+      crit:r.querySelector('.mf-crit').value,
+      val:r.querySelector('.mf-val').value.trim(),
+    })).filter(f=>f.name),
+  })).filter(p=>p.campanha);
+}
+
+// ── MQL EVALUATION ────────────────────────────────────────────────────
+function getProfile(lead,client){
+  const campVal=(lead['Campanha']||lead['Campanha de Origem']||lead['Campanha de origem']||'').toLowerCase().trim();
+  if(campVal&&client.mqlProfiles?.length){
+    const match=client.mqlProfiles.find(p=>
+      campVal.includes(p.campanha.toLowerCase())||
+      p.campanha.toLowerCase().split(' ').some(w=>w.length>3&&campVal.includes(w))
+    );
+    if(match)return match;
+  }
+  return client.mqlProfiles?.[0]||null;
+}
+
+function isMQL(lead,client){
+  const prof=getProfile(lead,client);
+  if(!prof||!prof.fields?.length)return false;
+  let pass=0,total=prof.fields.length;
+  // Debug: log first few leads
+  if(Math.random()<0.1) console.log('[MQL] Lead campos:',Object.keys(lead),'| Prof:',prof.campanha,'| Fields:',prof.fields.map(f=>f.name));
+  for(const f of prof.fields){
+    const rawVal=lead[f.name]||lead[Object.keys(lead).find(k=>k.toLowerCase()===f.name.toLowerCase())||'']||'';
+    const val=String(rawVal).toLowerCase().trim();
+    const target=(f.val||'').toLowerCase().trim();
+    if(!val||val==='-'||val==='n/a'){continue;} // empty = skip (not MQL for this field)
+    if(f.crit==='any'){pass++;continue;}
+    if(f.crit==='contains'){
+      const targets=target.split(/[/,]/).map(t=>t.trim()).filter(Boolean);
+      if(targets.length===0||targets.some(t=>val.includes(t))){pass++;continue;}
+    }
+    if(f.crit==='notcontains'){
+      const targets=target.split(/[/,]/).map(t=>t.trim()).filter(Boolean);
+      if(!targets.some(t=>val.includes(t))){pass++;continue;}
+    }
+    if(f.crit==='gt'&&pn(rawVal)>pn(f.val)){pass++;continue;}
+  }
+  const result=total>0&&pass>=Math.ceil(total*0.5);
+  return result;
+}
+
+// ── CLIENT CRUD ───────────────────────────────────────────────────────
+// ── REPORT HISTORY ────────────────────────────────────────────────────
+const reportHistory={}; // { clientId: [{type,title,date,url}] }
+
+function addReportHistory(clientId,type,title,url){
+  if(!reportHistory[clientId])reportHistory[clientId]=[];
+  reportHistory[clientId].unshift({type,title,date:new Date().toLocaleDateString('pt-BR'),url});
+  reportHistory[clientId]=reportHistory[clientId].slice(0,20);
+  if(activeClientId===clientId)renderReportHistory(clientId);
+}
+
+function renderReportHistory(id){
+  const list=document.getElementById('rh-list');
+  const items=reportHistory[id]||[];
+  if(!items.length){list.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.3)">Nenhum relatório gerado ainda.</div>';return;}
+  list.innerHTML=items.map(r=>`
+    <div class="rh-item">
+      <div class="rh-title">${escH(r.title)}</div>
+      <div class="rh-meta"><span>${r.date}</span>${r.url?`<a class="rh-link" href="${r.url}" target="_blank">Ver no ClickUp</a>`:'<span>No chat</span>'}</div>
+    </div>`).join('');
+}
+
+// ── LEADS VIEW ────────────────────────────────────────────────────────
+let leadsFilter='all';
+
+function filterLeads(f){
+  leadsFilter=f;
+  ['all','mql','no'].forEach(x=>document.getElementById('leads-filter-'+x)?.classList.toggle('active',x===f));
+  if(activeClientId)renderLeadsPanel(activeClientId);
+}
+
+function renderLeadsPanel(id){
+  const c=clients.find(x=>x.id===id);
+  const d=sheetData[id];
+  if(!d){document.getElementById('leads-list').innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.3)">Carregando...</div>';return;}
+  const crm=d.crm.filter(r=>inPeriod(r['Data']));
+  const filtered=crm.filter(l=>{
+    const m=isMQL(l,c);
+    if(leadsFilter==='mql')return m;
+    if(leadsFilter==='no')return!m;
+    return true;
+  });
+  const list=document.getElementById('leads-list');
+  if(!filtered.length){list.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.3)">Nenhum lead no período.</div>';return;}
+  list.innerHTML=filtered.map(l=>{
+    const isM=isMQL(l,c);
+    const nome=l['Nome']||l['nome']||l['Name']||'—';
+    const cargo=l['Cargo']||l['cargo']||'—';
+    const camp=l['Campanha']||'—';
+    return`<div class="lead-row ${isM?'is-mql':''}" onclick="askAboutLead(${JSON.stringify(JSON.stringify(l))})">
+      <div class="lead-name"><span class="mql-dot ${isM?'mql-yes':'mql-no'}"></span>${escH(nome)}</div>
+      <div class="lead-meta">${escH(cargo)} · ${escH(camp)}</div>
+    </div>`;
+  }).join('');
+}
+
+function askAboutLead(leadJson){
+  const l=JSON.parse(leadJson);
+  const vals=Object.entries(l).map(([k,v])=>`${k}: ${v}`).join(' | ');
+  sendMessage(`Analise este lead individualmente: ${vals}`);
+}
+
+function exportMQL(){
+  if(!activeClientId)return;
+  const c=clients.find(x=>x.id===activeClientId);
+  const d=sheetData[activeClientId];if(!d)return;
+  const crm=d.crm.filter(r=>inPeriod(r['Data'])&&isMQL(r,c));
+  if(!crm.length){showToast('Nenhum MQL no período.');return;}
+  const headers=Object.keys(crm[0]);
+  const csv=[headers.join(','),...crm.map(r=>headers.map(h=>`"${(r[h]||'').replace(/"/g,'""')}"`).join(','))].join('
+');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`MQLs-${c.name}-${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.csv`;
+  a.click();URL.revokeObjectURL(url);
+  showToast(`${crm.length} MQLs exportados.`);
+}
+
+// ── PERIOD SHORTCUTS ──────────────────────────────────────────────────
+function setQuickPeriod(days){
+  periodDays=days;
+  document.querySelectorAll('.pshort').forEach(b=>{
+    b.classList.toggle('active',parseInt(b.textContent)===(days===9999?Infinity:days)||
+      (days===9999&&b.textContent==='Tudo'));
+  });
+  document.getElementById('metrics-lbl').textContent=`Métricas · ${periodLabel()}`;
+  save();
+  if(activeClientId){renderMetrics(activeClientId);renderCamps(activeClientId);renderLeadsPanel(activeClientId);}
+}
+
+// ── ALERTS ────────────────────────────────────────────────────────────
+function renderAlerts(id){
+  const c=clients.find(x=>x.id===id);
+  const d=sheetData[id];if(!d)return;
+  const ads=d.ads.filter(r=>inPeriod(r['Data']));
+  const crm=d.crm.filter(r=>inPeriod(r['Data']));
+  const alerts=[];
+  const leads=calcLeads(ads)||crm.length;
+  const ctr=calcCTR(ads);
+  const freq=calcFreq(ads);
+  const mqls=crm.filter(r=>isMQL(r,c)).length;
+  const mqlPct=crm.length>0?mqls/crm.length*100:0;
+  const defProf=c.mqlProfiles?.[0];
+  // Check days without leads
+  if(ads.length>0){
+    const lastDate=ads.map(r=>parseDate(r['Data'])).filter(Boolean).sort((a,b)=>b-a)[0];
+    if(lastDate){
+      const daysSince=Math.floor((new Date()-lastDate)/(1000*60*60*24));
+      if(daysSince>3)alerts.push({type:'bad',msg:`Sem dados há ${daysSince} dias`});
+    }
+  }
+  if(leads===0)alerts.push({type:'bad',msg:'Nenhum lead no período'});
+  if(ctr>0&&ctr<1)alerts.push({type:'bad',msg:`CTR crítico: ${ctr.toFixed(2)}%`});
+  else if(ctr>0&&ctr<2)alerts.push({type:'warn',msg:`CTR abaixo da meta: ${ctr.toFixed(2)}%`});
+  if(freq>3)alerts.push({type:'warn',msg:`Frequência alta: ${freq.toFixed(1)}x`});
+  if(defProf&&mqlPct>0&&mqlPct>=defProf.mqlPct)alerts.push({type:'good',msg:`MQL% na meta: ${mqlPct.toFixed(0)}%`});
+  else if(defProf&&crm.length>0&&mqlPct<defProf.mqlPct*0.5)alerts.push({type:'bad',msg:`MQL% muito abaixo: ${mqlPct.toFixed(0)}% (meta ${defProf.mqlPct}%)`});
+  const wrap=document.getElementById('alerts-wrap');
+  wrap.innerHTML=alerts.map(a=>`<div class="alert-badge ${a.type==='good'?'alert-good':''}">${a.msg}</div>`).join('');
+}
+
+// ── CHART ─────────────────────────────────────────────────────────────
+let leadsChart=null;
+function renderChart(id){
+  const d=sheetData[id];if(!d)return;
+  const ads=d.ads.filter(r=>inPeriod(r['Data']));
+  if(!ads.length){document.getElementById('chart-wrap').style.display='none';return;}
+  // Group leads by date
+  const byDate={};
+  ads.forEach(r=>{
+    const dt=r['Data'];if(!dt)return;
+    const leads=calcLeads([r]);
+    if(!byDate[dt])byDate[dt]=0;
+    byDate[dt]+=leads;
+  });
+  const dates=Object.keys(byDate).sort();
+  if(dates.length<3){document.getElementById('chart-wrap').style.display='none';return;}
+  document.getElementById('chart-wrap').style.display='block';
+  const ctx=document.getElementById('leads-chart').getContext('2d');
+  if(leadsChart)leadsChart.destroy();
+  leadsChart=new Chart(ctx,{
+    type:'line',
+    data:{
+      labels:dates.map(d=>d.split(/[-\/]/).reverse().slice(0,2).join('/')),
+      datasets:[{
+        label:'Leads',data:dates.map(d=>byDate[d]),
+        borderColor:'#ffcc00',backgroundColor:'rgba(255,204,0,.1)',
+        borderWidth:2,pointRadius:2,tension:.3,fill:true
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'rgba(255,255,255,.4)',font:{size:8},maxTicksLimit:7},grid:{color:'rgba(255,255,255,.06)'}},
+        y:{ticks:{color:'rgba(255,255,255,.4)',font:{size:8}},grid:{color:'rgba(255,255,255,.06)'},beginAtZero:true}
+      }
+    }
+  });
+}
+
+// ── COMPARE WITH PREVIOUS PERIOD ──────────────────────────────────────
+function renderCompare(id){
+  const d=sheetData[id];if(!d)return;
+  const now=new Date();
+  const curStart=new Date(now);curStart.setDate(now.getDate()-periodDays);
+  const prevStart=new Date(curStart);prevStart.setDate(curStart.getDate()-periodDays);
+  const curAds=d.ads.filter(r=>{const dt=parseDate(r['Data']);return dt&&dt>=curStart&&dt<=now;});
+  const prevAds=d.ads.filter(r=>{const dt=parseDate(r['Data']);return dt&&dt>=prevStart&&dt<curStart;});
+  const curLeads=calcLeads(curAds);
+  const prevLeads=calcLeads(prevAds);
+  const wrap=document.getElementById('compare-wrap');
+  if(prevLeads===0){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  const diff=curLeads-prevLeads;
+  const pct=Math.abs(Math.round(diff/prevLeads*100));
+  const cls=diff>0?'cv-up':diff<0?'cv-dn':'cv-neu';
+  const sign=diff>0?'+':'';
+  document.getElementById('compare-leads').className=`compare-val ${cls}`;
+  document.getElementById('compare-leads').textContent=`Leads: ${sign}${diff} (${sign}${pct}%)`;
+}
+
+function genId(){return'c'+Date.now();}
+
+function reAnalyze(){
+  if(!activeClientId){showToast('Selecione um cliente.');return;}
+  const d=sheetData[activeClientId];
+  if(!d){showToast('Dados ainda carregando.');return;}
+  // Keep history — just add a new analysis below
+  autoGreet(activeClientId);
+}
+
+function deleteClient(id){
+  const c=clients.find(x=>x.id===id);
+  if(!c)return;
+  if(!confirm(`Excluir o cliente "${c.name}"? Esta ação não pode ser desfeita.`))return;
+  clients=clients.filter(x=>x.id!==id);
+  delete sheetData[id];
+  delete chatHistories[id];
+  if(activeClientId===id){
+    activeClientId=null;
+    document.getElementById('chat-hdr').style.display='none';
+    document.getElementById('messages').innerHTML='<div class="empty-state" id="empty-state"><div class="big">Samuelzinho</div><p>Selecione um cliente para começar.</p></div>';
+    ['metrics-section','period-section','camps-section','reports-section','qa-section'].forEach(s=>document.getElementById(s).style.display='none');
+  }
+  save();renderClients();
+  showToast(`Cliente "${c.name}" excluído.`);
+}
+
+function openClientModal(id=null){
+  editingClientId=id;
+  const c=id?clients.find(x=>x.id===id):null;
+  document.getElementById('cm-title').textContent=c?'Editar cliente':'Novo cliente';
+  document.getElementById('cm-name').value=c?.name||'';
+  document.getElementById('cm-sheet').value=c?.sheetId||'';
+  document.getElementById('cm-culist').value=c?.cuListId||'';
+  document.getElementById('cm-acctname').value=c?.acctName||'';
+  document.getElementById('mql-profiles-list').innerHTML='';
+  profileCount=0;fieldCount=0;
+  (c?.mqlProfiles||[]).forEach(p=>addMqlProfile(p));
+  document.getElementById('client-modal').classList.add('show');
+}
+function closeClientModal(){document.getElementById('client-modal').classList.remove('show');editingClientId=null;}
+
+async function saveClient(){
+  const name=document.getElementById('cm-name').value.trim();
+  if(!name){showToast('Nome é obrigatório.');return;}
+  const client={
+    id:editingClientId||genId(),name,
+    sheetId:document.getElementById('cm-sheet').value.trim(),
+    cuListId:document.getElementById('cm-culist').value.trim(),
+    acctName:document.getElementById('cm-acctname').value.trim()||name,
+    mqlProfiles:getMqlProfiles(),
+  };
+  if(editingClientId){const i=clients.findIndex(x=>x.id===editingClientId);if(i>-1)clients[i]=client;}
+  else clients.push(client);
+  save();syncSaveConfig();closeClientModal();renderClients();
+  showToast(`Cliente "${name}" salvo.`);
+  await loadClientData(client.id);
+  if(!activeClientId)switchClient(client.id);
+}
+
+function renderClients(){
+  const list=document.getElementById('clients-list');
+  if(!clients.length){list.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.3)">Nenhum cliente ainda.</div>';return;}
+  list.innerHTML=clients.map(c=>{
+    const d=sheetData[c.id];
+    const ads=d?d.ads.filter(r=>inPeriod(r['Data'])):[];
+    const crm=d?d.crm.filter(r=>inPeriod(r['Data'])):[];
+    const mqls=crm.filter(r=>isMQL(r,c)).length;
+    const mqlPct=crm.length?Math.round(mqls/crm.length*100):0;
+    const leads=d?calcLeads(ads):0;
+    const dot=d?(mqlPct>=(c.mqlProfiles?.[0]?.mqlPct||40)?'s-on':'s-w'):'s-off';
+    return`<div class="ci ${activeClientId===c.id?'active':''}" id="ci-${c.id}" onclick="switchClient('${c.id}')">
+      <div class="ci-name"><span class="sdot ${dot}"></span>${escH(c.name)}<button class="ci-edit" onclick="event.stopPropagation();openClientModal('${c.id}')">✎</button><button class="ci-edit" style="color:rgba(234,91,12,.5)" onclick="event.stopPropagation();deleteClient('${c.id}')">✕</button></div>
+      <div class="ci-meta">${d?`${leads} leads · ${crm.length} CRM · MQL ${mqlPct}%`:'Carregando...'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── LOAD DATA ─────────────────────────────────────────────────────────
+async function loadClientData(clientId){
+  const c=clients.find(x=>x.id===clientId);if(!c||!sheetsKey)return;
+  try{
+    // Source 1: Unified sheet (Stract) — filter by account name
+    let ads=[];
+    if(unifiedSheetId){
+      try{
+        const rows=await sheetsGet(unifiedSheetId,'Campanhas!A:Z');
+        const{data}=parseRows(rows);
+        const acct=c.acctName||c.name;
+        // Filter by Conta / Cliente column
+        // Find the account column name dynamically
+        const headers=Object.keys(data[0]||{});
+        const acctCol=headers.find(h=>/conta|cliente|account/i.test(h))||'Conta / Cliente';
+        console.log('['+c.name+'] Coluna conta detectada:', acctCol);
+        const uniqueAccts=[...new Set(data.slice(0,50).map(r=>r[acctCol]||'').filter(Boolean))];
+        console.log('['+c.name+'] Contas únicas na planilha:', uniqueAccts.slice(0,10));
+        console.log('['+c.name+'] Buscando por:', acct);
+        
+        // Normalize: remove accents, lowercase, trim
+        const norm=s=>s.toLowerCase().trim().normalize('NFD').replace(/[̀-ͯ]/g,'');
+        const acctN=norm(acct);
+        ads=data.filter(r=>{
+          const cv=r[acctCol]||'';
+          const cvN=norm(cv);
+          return cvN===acctN||cvN.includes(acctN)||acctN.includes(cvN)||
+                 // Also try first word match
+                 (acctN.split(' ')[0].length>3&&cvN.includes(acctN.split(' ')[0]));
+        });
+        console.log('['+c.name+'] Linhas filtradas:', ads.length, 'de', data.length);
+      }catch(e){console.warn('Unified sheet error:',e.message);}
+    }
+    // Source 2: Client Looker sheet — CRM tab
+    let crm=[];
+    if(c.sheetId){
+      const crmTabs=['CRM','Leads','Lead','Formulário','Formulario'];
+      for(const tab of crmTabs){
+        try{
+          const rows=await sheetsGet(c.sheetId,`${tab}!A:S`);
+          if(rows.length>1){
+            const{data,headers}=parseRows(rows);
+            console.log('[CRM] Tab:',tab,'| Headers:',headers,'| Rows:',data.length);
+            if(data.length>0){
+              console.log('[CRM] Sample lead keys:',Object.keys(data[0]));
+              console.log('[CRM] Sample lead:',data[0]);
+            }
+            crm=data;break;
+          }
+        }catch(e){console.warn('[CRM] Tab',tab,'error:',e.message);}
+      }
+    }
+    sheetData[clientId]={ads,crm};
+    renderClients();
+    if(activeClientId===clientId){renderMetrics(clientId);renderCamps(clientId);}
+  }catch(e){showToast(`Erro ${c.name}: ${e.message}`);}
+}
+
+async function reloadAll(){
+  showToast('Recarregando...');
+  for(const c of clients)await loadClientData(c.id);
+  showToast('Dados atualizados.');
+}
+
+// ── SWITCH CLIENT ─────────────────────────────────────────────────────
+async function switchClient(id){
+  activeClientId=id;
+  const c=clients.find(x=>x.id===id);
+  document.querySelectorAll('[id^="ci-"]').forEach(el=>el.classList.remove('active'));
+  document.getElementById(`ci-${id}`)?.classList.add('active');
+  document.getElementById('chat-name').textContent=c.name;
+  document.getElementById('chat-hdr').style.display='flex';
+  ['metrics-section','period-section','camps-section','leads-section','reports-section','clickup-section','rh-section','qa-section'].forEach(s=>document.getElementById(s).style.display='block');
+  document.getElementById('metrics-lbl').textContent=`Métricas · ${periodLabel()}`;
+  document.getElementById('reload-btn').style.display='block';
+  renderChatHistory(id);
+  if(!sheetData[id]){
+    document.getElementById('metric-grid').innerHTML=`<div style="grid-column:span 2"><div class="skel"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:85%"></div></div>`;
+    await loadClientData(id);
+  }else{renderMetrics(id);renderCamps(id);}
+  if(!chatHistories[id]?.length)await autoGreet(id);
+}
+
+function changePeriod(){
+  periodDays=parseInt(document.getElementById('period-select').value);
+  document.getElementById('metrics-lbl').textContent=`Métricas · ${periodLabel()}`;
+  save();if(activeClientId){renderMetrics(activeClientId);renderCamps(activeClientId);}
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function renderMetrics(id){
+  const c=clients.find(x=>x.id===id);const d=sheetData[id];if(!d)return;
+  const ads=d.ads.filter(r=>inPeriod(r['Data']));
+  const crm=d.crm.filter(r=>inPeriod(r['Data']));
+  const mqls=crm.filter(r=>isMQL(r,c)).length;
+  const spend=calcSpend(ads),leads=calcLeads(ads)||crm.length;
+  const ctr=calcCTR(ads),cpm=calcCPM(ads),freq=calcFreq(ads);
+  const cplReal=leads>0?spend/leads:0;
+  const mqlPct=crm.length>0?mqls/crm.length*100:0;
+  const defProf=c.mqlProfiles?.[0];
+  const mqlMeta=defProf?.mqlPct||40;const cplMeta=defProf?.cpl||0;
+  const cards=[
+    {l:'Investimento',v:spend>0?'R$'+spend.toLocaleString('pt-BR',{minimumFractionDigits:2}):'—',d:'',cls:'nu'},
+    {l:'CTR Médio',v:ctr>0?ctr.toFixed(2)+'%':'—',d:ctr>0?(ctr>=2?'▲ Bom':'▼ Baixo'):'',cls:ctr>=2?'up':ctr>0?'dn':'nu'},
+    {l:'CPM Médio',v:cpm>0?'R$'+cpm.toFixed(2):'—',d:'',cls:'nu'},
+    {l:'Frequência',v:freq>0?freq.toFixed(1)+'x':'—',d:freq>3?'▲ Alta':'OK',cls:freq>3?'dn':'up'},
+    {l:'Leads',v:leads||'—',d:'',cls:'nu'},
+    {l:'MQLs',v:`${mqls}/${crm.length}`,d:crm.length>0?(mqlPct>=mqlMeta?'▲ Meta OK':'▼ Abaixo'):'Sem CRM',cls:mqlPct>=mqlMeta?'up':'dn'},
+    {l:'CPL Real',v:cplReal>0?'R$'+cplReal.toFixed(2):'—',d:cplMeta>0?(cplReal<=cplMeta?'▲ OK':'▼ Acima'):'',cls:cplMeta>0?(cplReal<=cplMeta?'up':'dn'):'nu'},
+    {l:'CPL Meta',v:cplMeta>0?'R$'+cplMeta.toFixed(2):'—',d:'',cls:'nu'},
+  ];
+  document.getElementById('metric-grid').innerHTML=cards.map(x=>`<div class="mc"><div class="ml">${x.l}</div><div class="mv">${x.v}</div><div class="md ${x.cls}">${x.d||'&nbsp;'}</div></div>`).join('');
+  document.getElementById('chat-kpis').innerHTML=[
+    {v:leads||'—',l:'Leads'},{v:`${mqls}/${crm.length}`,l:'MQLs'},{v:cplReal>0?'R$'+cplReal.toFixed(2):'—',l:'CPL Real'},
+  ].map(k=>`<div class="chat-kpi"><div class="kv">${k.v}</div><div class="kl">${k.l}</div></div>`).join('');
+  if(crm.length>0){
+    const pct=Math.min(mqlPct,100);
+    const bc=mqlPct>=mqlMeta?'#2ecc71':mqlPct>=mqlMeta*0.7?'#ffcc00':'#ea5b0c';
+    document.getElementById('mql-wrap').style.display='block';
+    document.getElementById('mql-bar').style.cssText=`width:${pct}%;background:${bc}`;
+    document.getElementById('mql-pct-lbl').textContent=mqlPct.toFixed(1)+'%';
+    document.getElementById('mql-pct-lbl').style.color=bc;
+    document.getElementById('mql-real-lbl').textContent=`Real ${mqlPct.toFixed(0)}%`;
+    document.getElementById('mql-meta-lbl').textContent=`Meta ${mqlMeta}%`;
+  }
+  // Render extra panels
+  renderAlerts(id);
+  renderChart(id);
+  renderCompare(id);
+  renderLeadsPanel(id);
+  renderReportHistory(id);
+  // Last sync time
+  document.getElementById('sync-info').textContent='Atualizado: '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+
+function renderCamps(id){
+  const d=sheetData[id];if(!d)return;
+  const ads=d.ads.filter(r=>inPeriod(r['Data']));
+  const list=document.getElementById('camps-list');
+  const campKey=Object.keys(ads[0]||{}).find(k=>/campa/i.test(k))||'Campanha';
+  const campMap={};
+  ads.forEach(r=>{const k=r[campKey]||'Sem campanha';if(!campMap[k])campMap[k]=[];campMap[k].push(r);});
+  const entries=Object.entries(campMap);
+  if(!entries.length){list.innerHTML='<div style="font-size:11px;color:rgba(255,255,255,.3)">Sem dados no período.</div>';return;}
+  list.innerHTML=entries.map(([name,rows])=>{
+    const ctr=calcCTR(rows),spend=calcSpend(rows),leads=calcLeads(rows);
+    const cc=ctr>=2?'cp-g':ctr>=1?'cp-w':'cp-b';
+    return`<div class="cmp" onclick="analyzeCamp('${escH(id)}','${escH(name)}')">
+      <div class="cmp-label">${escH(name)}</div>
+      <div class="cmp-meta"><span class="cpill ${cc}">CTR ${ctr.toFixed(2)}%</span><span>R$${spend.toFixed(0)}</span><span>${leads} leads</span></div>
+    </div>`;
+  }).join('');
+}
+
+// ── CHAT ──────────────────────────────────────────────────────────────
+function hist(id){if(!chatHistories[id])chatHistories[id]=[];return chatHistories[id];}
+function renderChatHistory(id){
+  const box=document.getElementById('messages');box.innerHTML='';
+  hist(id).forEach(m=>{
+    if(m.role==='user')addMsg('user',escH(m.content).replace(/\n/g,'<br>'),false);
+    else addMsg('ai',fmt(m.content),false);
+  });
+}
+
+function buildCtx(clientId,ads,crm){
+  const c=clients.find(x=>x.id===clientId);
+  const spend=calcSpend(ads),leads=calcLeads(ads)||crm.length;
+  const ctr=calcCTR(ads),cpm=calcCPM(ads),freq=calcFreq(ads);
+  const cplReal=leads>0?spend/leads:0;
+  const campKey=Object.keys(ads[0]||{}).find(k=>/campa/i.test(k))||'Campanha';
+  const campMap={};ads.forEach(r=>{const k=r[campKey]||'—';if(!campMap[k])campMap[k]=[];campMap[k].push(r);});
+  const campSum=Object.entries(campMap).slice(0,10).map(([n,rows])=>{
+    const prof=c.mqlProfiles?.find(p=>n.toLowerCase().includes(p.campanha.toLowerCase()));
+    const crmCamp=crm.filter(l=>(l['Campanha']||'').toLowerCase().includes(n.toLowerCase()));
+    const mqls=crmCamp.filter(l=>isMQL(l,c)).length;
+    return`• ${n}: CTR ${calcCTR(rows).toFixed(2)}%, CPM R$${calcCPM(rows).toFixed(2)}, Gasto R$${calcSpend(rows).toFixed(0)}, Leads ${calcLeads(rows)}${prof?` | CPL meta R$${prof.cpl} | MQL% meta ${prof.mqlPct}%`:''}${crmCamp.length?` | CRM: ${crmCamp.length} leads, ${mqls} MQLs`:''}`;
+  }).join('\n');
+  const profDesc=(c.mqlProfiles||[]).map(p=>`  [${p.campanha}] CPL R$${p.cpl}, MQL% ${p.mqlPct}%\n${p.fields.map(f=>`    - ${f.name} ${f.crit} "${f.val}"`).join('\n')}`).join('\n');
+  const crmSample=crm.slice(0,15).map(l=>{
+    const prof=getProfile(l,c);const isM=isMQL(l,c);
+    const vals=Object.entries(l).slice(0,8).map(([k,v])=>`${k}: ${v}`).join(' | ');
+    return`• [${isM?'MQL':'NÃO MQL'}][${prof?.campanha||'?'}] ${vals}`;
+  }).join('\n');
+  return`CLIENTE: ${c.name} | Período: ${periodLabel()}
+PERFIS DE MQL:
+${profDesc||'Nenhum perfil configurado.'}
+
+MÉTRICAS: Investimento R$${spend.toFixed(2)} | CTR ${ctr.toFixed(2)}% | CPM R$${cpm.toFixed(2)} | Freq ${freq.toFixed(1)}x | Leads ${leads} | CPL real ${cplReal>0?'R$'+cplReal.toFixed(2):'—'}
+
+CAMPANHAS (${Object.keys(campMap).length}):
+${campSum||'Sem dados.'}
+
+CRM (${crm.length} leads):
+${crmSample||'Sem leads no período.'}`;
+}
+
+async function autoGreet(id){
+  const d=sheetData[id];if(!d)return;
+  const ads=d.ads.filter(r=>inPeriod(r['Data']));
+  const crm=d.crm.filter(r=>inPeriod(r['Data']));
+  const ctx=buildCtx(id,ads,crm);
+  await callClaude(`${ctx}\n\nFaça a análise inicial:\n1. Performance de tráfego por campanha com [BOM]/[ATENÇÃO]/[MELHORAR]\n2. Avalie cada lead do CRM — MQL ou não, por quê, e de qual campanha\n3. MQL% real vs meta por campanha\n4. Alertas críticos e próximas ações`,true,id);
+}
+
+function analyzeCamp(clientId,campName){
+  const d=sheetData[clientId];if(!d)return;
+  const c=clients.find(x=>x.id===clientId);
+  const campKey=Object.keys(d.ads[0]||{}).find(k=>/campa/i.test(k))||'Campanha';
+  const rows=d.ads.filter(r=>inPeriod(r['Data'])&&r[campKey]===campName);
+  const crmCamp=d.crm.filter(r=>inPeriod(r['Data'])&&(r['Campanha']||'').toLowerCase().includes(campName.toLowerCase()));
+  const mqls=crmCamp.filter(r=>isMQL(r,c)).length;
+  const prof=c.mqlProfiles?.find(p=>campName.toLowerCase().includes(p.campanha.toLowerCase()));
+  sendMessage(`Analise a campanha "${campName}" do cliente "${c.name}". Período: ${periodLabel()}.\nCTR ${calcCTR(rows).toFixed(2)}%, CPM R$${calcCPM(rows).toFixed(2)}, Gasto R$${calcSpend(rows).toFixed(0)}, Freq ${calcFreq(rows).toFixed(1)}x, Leads ${calcLeads(rows)}.\n${prof?`Meta: CPL R$${prof.cpl}, MQL% ${prof.mqlPct}%`:'Sem meta configurada para esta campanha.'}\nCRM desta campanha: ${crmCamp.length} leads, ${mqls} MQLs.\n${crmCamp.slice(0,10).map(l=>`• [${isMQL(l,c)?'MQL':'NÃO MQL'}] ${Object.entries(l).slice(0,5).map(([k,v])=>`${k}: ${v}`).join(' | ')}`).join('\n')}\n\nEntregue [BOM]/[ATENÇÃO]/[MELHORAR] e plano de ação.`);
+}
+
+function qa(type){
+  if(!activeClientId){showToast('Selecione um cliente.');return;}
+  const d=sheetData[activeClientId];if(!d){showToast('Dados carregando.');return;}
+  const ads=d.ads.filter(r=>inPeriod(r['Data']));
+  const crm=d.crm.filter(r=>inPeriod(r['Data']));
+  const ctx=buildCtx(activeClientId,ads,crm);
+  const prompts={
+    geral:`Análise geral completa. ${ctx}`,
+    ctr:`Diagnóstico do CTR. O que está abaixo de 2%? Por quê? O que fazer? ${ctx}`,
+    cpl:`CPL real vs meta por campanha. Está acima ou abaixo? ${ctx}`,
+    mql:`Avalie cada lead do CRM — MQL ou não e por quê, considerando o perfil de cada campanha. ${ctx}`,
+    crm:`Análise completa do CRM. Classifique cada lead como MQL ou não com justificativa. ${ctx}`,
+    frequencia:`Análise de frequência. Há saturação? O que fazer? ${ctx}`,
+    escala:`Quais campanhas escalar agora? O que é necessário? ${ctx}`,
+  };
+  sendMessage(prompts[type]);
+}
+
+// ── REPORTS ───────────────────────────────────────────────────────────
+let reportDest='chat';
+function openReportModal(type,dest='chat'){
+  if(!activeClientId){showToast('Selecione um cliente.');return;}
+  reportDest=dest;
+  const yd=yesterday(),lw=lastWeek(),lm=lastMonth();
+  const titles={diario:'Relatório Diário',semanal:'Relatório Semanal',mensal:'Relatório Mensal'};
+  const destLabel=dest==='clickup'?' → ClickUp':' no chat';
+  const descs={diario:`Padrão: ontem (${fmtBR(yd)}).`,semanal:`Padrão: semana passada (${fmtBR(lw.start)} a ${fmtBR(lw.end)}).`,mensal:`Padrão: mês passado (${fmtBR(lm.start)} a ${fmtBR(lm.end)}).`};
+  document.getElementById('rm-title').textContent=titles[type]+destLabel;
+  document.getElementById('rm-desc').textContent=descs[type];
+  if(type==='diario'){document.getElementById('rm-start').value=yd;document.getElementById('rm-end-wrap').style.display='none';}
+  else{const r=type==='semanal'?lw:lm;document.getElementById('rm-start').value=r.start;document.getElementById('rm-end').value=r.end;document.getElementById('rm-end-wrap').style.display='block';}
+  document.getElementById('rm-confirm').textContent=dest==='clickup'?'Gerar e enviar ao ClickUp':'Gerar no chat';
+  document.getElementById('rm-confirm').onclick=()=>confirmReport(type);
+  document.getElementById('report-modal').classList.add('show');
+}
+function closeReportModal(){document.getElementById('report-modal').classList.remove('show');}
+
+function confirmReport(type){
+  closeReportModal();
+  const since=document.getElementById('rm-start').value;
+  const until=type==='diario'?since:document.getElementById('rm-end').value;
+  runReport(type,activeClientId,since,until,reportDest);
+}
+
+async function runReport(type,clientId,since,until,dest='chat'){
+  const c=clients.find(x=>x.id===clientId);if(!c)return;
+  if(!sheetData[clientId])await loadClientData(clientId);
+  const d=sheetData[clientId];if(!d)return;
+  const sd=parseDate(since),ed=parseDate(until||since);ed?.setHours(23,59,59);
+  const ads=d.ads.filter(r=>inRange(r['Data'],sd,ed));
+  const crm=d.crm.filter(r=>inRange(r['Data'],sd,ed));
+  const ctx=buildCtx(clientId,ads,crm);
+  const periodStr=since===until?`dia ${fmtBR(since)}`:`${fmtBR(since)} a ${fmtBR(until)}`;
+  const structs={
+    diario:`RELATÓRIO DIÁRIO — ${c.name} — ${periodStr}\n${ctx}\n\nEstrutura: 1) Resumo do dia 2) Status campanhas [BOM]/[ATENÇÃO]/[MELHORAR] 3) Avalie cada lead: MQL? De qual campanha? Por quê? 4) Alertas críticos 5) Ações para amanhã`,
+    semanal:`RELATÓRIO SEMANAL — ${c.name} — ${periodStr}\n${ctx}\n\nEstrutura: 1) Resumo semana 2) Performance por campanha [BOM]/[ATENÇÃO]/[MELHORAR] 3) Análise MQL por campanha 4) O que funcionou 5) Plano próxima semana`,
+    mensal:`RELATÓRIO MENSAL — ${c.name} — ${periodStr}\n${ctx}\n\nEstrutura: 1) Resumo executivo 2) Performance por campanha [BOM]/[ATENÇÃO]/[MELHORAR] 3) Análise MQL por campanha 4) CPL real vs meta 5) Estratégia próximo mês`,
+  };
+  const periodStr2=since===until?`dia ${fmtBR(since)}`:`${fmtBR(since)} a ${fmtBR(until)}`;
+  if(dest==='clickup'){
+    showToast('Gerando relatório para o ClickUp...');
+    const c2=clients.find(x=>x.id===clientId);
+    const listId=c2?.cuListId||'';
+    console.log('[ClickUp] List ID:', listId, '| Cliente:', c2?.name);
+    if(!listId){
+      showToast('Configure o ClickUp List ID no cadastro do cliente.');
+      sendMessage(structs[type]);
+      return;
+    }
+    if(!clickupKey){
+      showToast('Configure a ClickUp API Key na configuração.');
+      sendMessage(structs[type]);
+      return;
+    }
+    const reply=await callClaudeRaw(structs[type]);
+    if(!reply){showToast('Erro ao gerar relatório com a IA.');return;}
+    // Show preview in chat
+    addMsg('ai',fmt('Relatório gerado. Enviando ao ClickUp...'));
+    const rtype=type==='diario'?'Diário':type==='semanal'?'Semanal':'Mensal';
+    const taskTitle=`[${rtype}] ${c2.name} — ${periodStr2}`;
+    const task=await createClickUpTask(listId,taskTitle,reply);
+    console.log('[ClickUp] Task result:', task);
+    if(task){
+      showToast('Relatório criado no ClickUp.');
+      addMsg('ai',fmt(`Tarefa criada: **${taskTitle}**\n\n[Ver no ClickUp](${task.url})`));
+      addReportHistory(clientId,type,taskTitle,task.url);
+    }else{
+      showToast('Erro ao criar no ClickUp. Exibindo no chat.');
+      addMsg('ai',fmt(reply));
+    }
+  }else{
+    sendMessage(structs[type]);
+    const rtype2=type==='diario'?'Diário':type==='semanal'?'Semanal':'Mensal';
+    addReportHistory(clientId,type,`[${rtype2}] ${c?.name} — ${periodStr2}`,null);
+  }
+}
+
+// ── CLICKUP ───────────────────────────────────────────────────────────
+async function createClickUpTask(listId,title,desc){
+  if(!clickupKey){console.error('[ClickUp] API Key não configurada');return null;}
+  if(!listId){console.error('[ClickUp] List ID não configurado');return null;}
+  try{
+    const res=await fetch(`https://api.clickup.com/api/v2/list/${listId}/task`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':clickupKey},
+      body:JSON.stringify({name:title,description:desc,priority:2,tags:['relatorio','samuelzinho']})
+    });
+    const data=await res.json();
+    if(data.id){console.log('[ClickUp] Tarefa criada:', data.id, data.url);return data;}
+    console.error('[ClickUp] Erro:', JSON.stringify(data));
+    return null;
+  }catch(e){console.error('[ClickUp] Exceção:', e.message);return null;}
+}
+
+// ── SCHEDULER ────────────────────────────────────────────────────────
+function startScheduler(){
+  if(schedInterval)clearInterval(schedInterval);
+  document.getElementById('sched-badge').style.display='block';
+  schedInterval=setInterval(checkSchedule,60000);
+  checkSchedule();
+}
+
+async function checkSchedule(){
+  if(!clients.length||!anthropicKey||!sheetsKey)return;
+  const now=new Date(),today=ymd(now),hour=now.getHours(),dow=now.getDay(),dom=now.getDate();
+  const delay=ms=>new Promise(r=>setTimeout(r,ms));
+
+  if(hour===9&&schedState.lastDaily!==today){
+    schedState.lastDaily=today;save();
+    const yd=yesterday();
+    showToast('Gerando relatórios diários...');
+    for(const c of clients){
+      await runReport('diario',c.id,yd,yd);
+      await delay(5000);
+    }
+    showToast('Relatórios diários enviados ao ClickUp.');
+  }
+  if(dow===1&&hour===9&&schedState.lastWeekly!==today){
+    schedState.lastWeekly=today;save();
+    const lw=lastWeek();
+    showToast('Gerando relatórios semanais...');
+    for(const c of clients){
+      await runReport('semanal',c.id,lw.start,lw.end);
+      await delay(5000);
+    }
+    showToast('Relatórios semanais enviados ao ClickUp.');
+  }
+  if(dom===1&&hour===9&&schedState.lastMonthly!==today){
+    schedState.lastMonthly=today;save();
+    const lm=lastMonth();
+    showToast('Gerando relatórios mensais...');
+    for(const c of clients){
+      await runReport('mensal',c.id,lm.start,lm.end);
+      await delay(5000);
+    }
+    showToast('Relatórios mensais enviados ao ClickUp.');
+  }
+}
+
+// ── CLAUDE ───────────────────────────────────────────────────────────
+function addMsg(role,html){
+  const el=document.createElement('div');el.className=`msg ${role}`;
+  el.innerHTML=`<div class="mav">${role==='ai'?'SM':'VC'}</div><div class="bubble">${html}</div>`;
+  document.getElementById('messages').appendChild(el);
+  document.getElementById('messages').scrollTop=99999;
+}
+function showTyping(){
+  const el=document.createElement('div');el.className='msg ai';el.id='typing';
+  el.innerHTML=`<div class="mav">SM</div><div class="bubble typing-bubble"><span></span><span></span><span></span></div>`;
+  document.getElementById('messages').appendChild(el);document.getElementById('messages').scrollTop=99999;
+}
+function removeTyping(){const t=document.getElementById('typing');if(t)t.remove();}
+
+function fmt(t){
+  t=t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  t=t.replace(/^###?\s+(.+)$/gm,'<h3>$1</h3>');
+  t=t.replace(/^\*\s+(.+)$/gm,'<li>$1</li>');t=t.replace(/^-\s+(.+)$/gm,'<li>$1</li>');
+  t=t.replace(/(<li>.*?<\/li>(\s|<br>)*)+/gs,m=>`<ul>${m}</ul>`);
+  t=t.replace(/^---+$/gm,'<hr>');
+  t=t.replace(/\[BOM\]/g,'<span class="tag good">Bom</span>');
+  t=t.replace(/\[ATENÇÃO\]/g,'<span class="tag warn">Atenção</span>');
+  t=t.replace(/\[MELHORAR\]/g,'<span class="tag bad">Melhorar</span>');
+  t=t.replace(/\n/g,'<br>');return t;
+}
+
+async function sendMessage(override){
+  const input=document.getElementById('input');
+  const text=override||input.value.trim();if(!text)return;
+  if(!override){input.value='';input.style.height='auto';}
+  document.getElementById('send-btn').disabled=true;
+  const empty=document.getElementById('empty-state');if(empty)empty.remove();
+  if(activeClientId)hist(activeClientId).push({role:'user',content:text});
+  if(!override)addMsg('user',escH(text).replace(/\n/g,'<br>'));
+  showTyping();
+  await callClaude(text,false,activeClientId);
+}
+
+const SYSTEM=`Você é o Samuelzinho Meta, especialista em tráfego pago e marketing tributário. Analisa dados reais de campanhas Meta Ads para advogados tributaristas e contadores.
+
+METODOLOGIA:
+- Subido (Pedro Sobral): Gancho + Corpo + CTA | mínimo 6 anúncios ativos | pausou um, sobe outro imediatamente
+- Ganchos: pergunta direta, história, contraintuitivo, segmentado, personificado, dualidade, prova social
+- Andromeda: lance + taxa de ação estimada + qualidade do anúncio = posição no leilão
+- Schwartz: inconsciente > problema > solução > produto > marca
+- RETINA: Relacionamento, Engajamento, Transformação, Interação, Níveis, Autoridade
+- Benchmarks: CTR min 2%, MQL min 40%, Frequência max 3x
+
+CAMPANHAS VALIDADAS: Negociação de Dívidas, Equiparação Hospitalar, Reforma Tributária, INSS Acima do Teto
+
+MQL: Avalie cada lead com os critérios da campanha de origem. Campo vazio = não qualificado para aquele critério.
+
+AÇÕES PRIORITÁRIAS — sempre técnicas e detalhadas:
+- Descreva a ação exata (ex: "Pausar conjuntos com CTR abaixo de 1% e duplicar orçamento do conjunto X")
+- Inclua passo a passo quando relevante (ex: "1. Gerenciador de Anúncios > 2. Filtrar por CTR > 3. Pausar abaixo de 1%")
+- Dê exemplos concretos de copy, gancho ou segmentação ao sugerir novos anúncios
+- Priorize por impacto: HOJE / ESSA SEMANA / PRÓXIMO MÊS
+
+FORMATO DE RELATÓRIO — seções obrigatórias separadas por linha em branco:
+1. RESUMO EXECUTIVO (máximo 4 linhas)
+2. MÉTRICAS DO PERÍODO (lista organizada com todos os números)
+3. STATUS POR CAMPANHA (uma subseção por campanha com [BOM]/[ATENÇÃO]/[MELHORAR])
+4. ANÁLISE DE LEADS E MQL (avalie lead por lead quando possível)
+5. ALERTAS CRÍTICOS (máximo 3, os mais urgentes)
+6. PLANO DE AÇÃO: HOJE / ESSA SEMANA / PRÓXIMO MÊS (bullet points específicos)
+
+REGRAS: pt-BR, sem emojis, técnico e direto. Nunca amontoar informações em parágrafo único. Sempre usar listas e subseções.`;
+
+async function callClaude(userMsg,isSystem=false,clientId=''){
+  const h=clientId?hist(clientId).slice(-16):[];
+  const msgs=isSystem?[{role:'user',content:userMsg}]:[...h,{role:'user',content:userMsg}];
+  const key=document.getElementById('anthropic-key').value.trim()||anthropicKey;
+  const headers={'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'};
+  if(key)headers['x-api-key']=key;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers,body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,system:SYSTEM,messages:msgs})});
+    const data=await res.json();
+    const reply=data.content?.map(b=>b.text||'').join('')||'Sem resposta.';
+    removeTyping();addMsg('ai',fmt(reply));
+    if(clientId){
+      hist(clientId).push({role:'assistant',content:reply});save();
+      syncSaveHistory(clientId,hist(clientId));
+      if(isSystem&&userMsg.includes('RELATÓRIO')){
+        const c=clients.find(x=>x.id===clientId);
+        const rtype=userMsg.includes('DIÁRIO')?'Diário':userMsg.includes('SEMANAL')?'Semanal':'Mensal';
+        const clean=reply.replace(/\*\*(.*?)\*\*/g,'$1').replace(/<[^>]+>/g,'').trim();
+        if(c?.cuListId)createClickUpTask(c.cuListId,`[${rtype}] ${c.name} — ${new Date().toLocaleDateString('pt-BR')}`,clean).then(t=>{if(t)addMsg('ai',fmt(`Tarefa criada no ClickUp. [Ver tarefa](${t.url})`));});
+      }
+    }
+  }catch(e){removeTyping();addMsg('ai','Erro ao conectar com a IA.');}
+  finally{document.getElementById('send-btn').disabled=false;}
+}
+
+async function callClaudeRaw(userMsg){
+  if(!anthropicKey)return null;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true','x-api-key':anthropicKey},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,system:SYSTEM,messages:[{role:'user',content:userMsg}]})});
+    const data=await res.json();return data.content?.map(b=>b.text||'').join('')||null;
+  }catch(e){return null;}
+}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+function escH(t){return(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+document.getElementById('input').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px';});
+document.getElementById('input').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+
+window.addEventListener('load',async()=>{
+  const ok=load();
+  if(ok){
+    saveConfig();
+    // Try to sync from Apps Script
+    if(appsScriptUrl){
+      showToast('Sincronizando dados...');
+      const synced=await syncLoad();
+      if(synced)showToast('Dados sincronizados.');
+    }
+    renderClients();
+    document.getElementById('reload-btn').style.display='block';
+    document.getElementById('add-client-btn').style.display='block';
+    addMsg('ai',fmt(`Bem-vindo de volta. **${clients.length} cliente(s)** carregado(s). Carregando dados...`));
+    for(const c of clients)await loadClientData(c.id);
+    renderClients();startScheduler();
+  }
+});
+</script>
+</body>
+</html>
